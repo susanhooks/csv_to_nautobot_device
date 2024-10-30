@@ -116,7 +116,7 @@ class CSVImportJob(Job):
         
         row_count = 1
 
-        for row in decoded_csv_file:
+        for row in csv_reader:
             site_name = row.get("name", "")
             state_name = row.get("state", "")
             city_name = row.get("city", "")
