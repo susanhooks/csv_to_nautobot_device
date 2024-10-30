@@ -1,0 +1,31 @@
+---
+sync_devices:
+  hostname: 
+    commands:
+      - command: "show version | as json"
+        parser: "none"
+        jpath: '"basic system info"."Hostname"'
+  serial: 
+    commands:
+      - command: "show version | as json"
+        parser: "none"
+        jpath: '"basic system info"."Serial Number"'
+  device_type:
+    commands:
+      - command: "show version | as json"
+        parser: "none"
+        jpath: '"basic system info"."Chassis Type"'
+  mgmt_interface:
+    commands:
+      - command: "show interface mgmt0 | as json"
+        parser: "none"
+        jpath: "[?ip_address=='{{ obj }}'].interfaces[].subinterfaces[].address[0].prefix"
+        post_processor: "{% if '/' in obj[0] %}{{ obj[0].split('/')[0] }}{% else %}31{% endif %}"
+  mask_length:
+    commands:
+      - command: "show interface mgmt0 | as json"
+        parser: "none"
+        jpath: "[?ip_address=='{{ obj }}'].interfaces[].subinterfaces[].address[0].prefix"
+        post_processor: "{% if '/' in obj[0] %}{{ obj[0].split('/')[1] }}{% else %}31{% endif %}"
+
+
