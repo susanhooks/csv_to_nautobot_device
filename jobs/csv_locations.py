@@ -130,18 +130,18 @@ class CSVImportJob(Job):
             state, _ = Location.objects.get_or_create(
                 name=state_name,
                 status=self.location_status,
-                type=LocationType.objects.get(name="State"),
+                location_type=LocationType.objects.get(name="State"),
             )
             city, _ = Location.objects.get_or_create(
                 name=city_name,
                 status=self.location_status,
-                type=LocationType.objects.get(name="City"),
+                location_type=LocationType.objects.get(name="City"),
                 parent=state,
             )
             site, _ = Location.objects.get_or_create(
                 name=site_name,
                 status=self.location_status,
-                type=LocationType.objects.get(name=site_type),
+                location_type=LocationType.objects.get(name=site_type),
                 parent=city,
             )
             row_count += 1
