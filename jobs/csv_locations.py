@@ -1,4 +1,5 @@
 import csv 
+from io import StringIO
 
 from nautobot.core.jobs import Job, BooleanVar, FileVar, ObjectVar
 from nautobot.dcim.models import Location, LocationType
@@ -109,11 +110,13 @@ class CSVImportJob(Job):
         self.debug = debug
         self.csv_file = csv_file
         self.location_status = location_status
+
+        decoded_csv_file = csv_file.read().decode("utf-8")
+        csv_reader = csv.DictReader(StringIO(decoded_csv_file)) 
         
-        csv_reader = csv.DictReader(csv_file)
         row_count = 1
 
-        for row in csv_reader:
+        for row in decoded_csv_file:
             site_name = row.get("name", "")
             state_name = row.get("state", "")
             city_name = row.get("city", "")
