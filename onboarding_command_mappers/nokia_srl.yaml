@@ -26,5 +26,6 @@ sync_devices:
         parser: "none"
         jpath: "interfaces[*].subinterfaces[?address[?contains(prefix, '{{ obj }}')]].address[0][].prefix"
         post_processor: "{% if '/' in obj[0] %}{{ obj[0].split('/')[1] }}{% else %}31{% endif %}"
+        iterable_type: "int"
 
 
