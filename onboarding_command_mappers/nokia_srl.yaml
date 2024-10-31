@@ -1,5 +1,11 @@
 ---
 sync_devices:
+  pre_processor:
+      set_env:
+        commands:
+          - command: "environment prompt {host}#"
+            parser: "none"
+            jpath: "*"
   hostname: 
     commands:
       - command: "show version | as json"
