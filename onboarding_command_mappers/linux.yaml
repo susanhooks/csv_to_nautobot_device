@@ -17,15 +17,14 @@ sync_devices:
         jpath: '"basic system info"."Chassis Type"'
   mgmt_interface:
     commands:
-      - command: "show interface mgmt0 | as json"
+      - command: "show interface all | as json"
         parser: "none"
-        jpath: "[?ip_address=='{{ obj }}'].interfaces[].subinterfaces[].address[0].prefix"
-        post_processor: "{% if '/' in obj[0] %}{{ obj[0].split('/')[0] }}{% else %}31{% endif %}"
+        jpath: "interfaces[*].subinterfaces[?address[?contains(prefix, '{{ obj }}')]].name"
   mask_length:
     commands:
-      - command: "show interface mgmt0 | as json"
+      - command: "show interface all | as json"
         parser: "none"
-        jpath: "[?ip_address=='{{ obj }}'].interfaces[].subinterfaces[].address[0].prefix"
+        jpath: "interfaces[*].subinterfaces[?address[?contains(prefix, '{{ obj }}')]].address[0].prefix"
         post_processor: "{% if '/' in obj[0] %}{{ obj[0].split('/')[1] }}{% else %}31{% endif %}"
 
 
